@@ -18,6 +18,8 @@ library(dplyr)
 library(plyr)
 tbl_df(NEI) 
 
+## filter for rows representing Baltimore
+em <- NEI %>% filter(grepl("24510", fips))
 ##summarize Emissions by type and year
 df <- ddply(NEI, c("type", "year"), summarise,
                median = median(Emissions)) ##I take medians in order not to be misled by outliers
@@ -29,7 +31,7 @@ g <- qplot(year, log(median), data = df, facets = . ~ type)
 
 g + theme(axis.text.x = element_text(angle = 45, hjust = 1))+ ##modify x-axis labels
   xlab("Emission Source") + ylab("log(median PM2.5 Emission")+ ##add axis labels
-  labs(title = "Median pm2.5 emission based on Source")+ ##add title
+  labs(title = "Baltimore - Median pm2.5 emission based on Source")+ ##add title
   geom_smooth() ##add regression line
 
 ##save the plot
